@@ -37,4 +37,3 @@ As the course progresses, this project will expand to include:
 
 ---
 
-*Last Updated: November 26, 2025*
