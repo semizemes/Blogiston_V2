@@ -40,3 +40,5 @@ function getFeedHtml() {
 function render() {
   document.getElementById("feed").innerHTML = getFeedHtml();
 }
+
+render()
