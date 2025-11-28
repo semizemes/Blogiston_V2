@@ -7,6 +7,30 @@ tweetBtn.addEventListener("click", function () {
   console.log(tweetInput.value);
 });
 
+document.addEventListener("click", function (e) {
+  if (e.target.dataset.like) {
+    handleLikeClick(e.target.dataset.like);
+  }
+});
+
+function handleLikeClick(tweetId) {
+  console.log(tweetId);
+  const targetTweetObj = tweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
+
+  if (targetTweetObj.isLiked) {
+    targetTweetObj.likes--;
+  } else if(!targetTweetObj.isLiked) {
+    targetTweetObj.likes++;
+  }
+
+  targetTweetObj.isLiked = !targetTweetObj.isLiked
+
+  console.log(targetTweetObj);
+  render()
+}
+
 function getFeedHtml() {
   let feedHtml = "";
 
