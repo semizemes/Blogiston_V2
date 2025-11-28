@@ -11,24 +11,36 @@ document.addEventListener("click", function (e) {
   if (e.target.dataset.like) {
     handleLikeClick(e.target.dataset.like);
   }
+  if(e.target.dataset.retweet){
+    handleRetweetClick(e.target.dataset.retweet)
+  }
 });
 
 function handleLikeClick(tweetId) {
-  console.log(tweetId);
   const targetTweetObj = tweetsData.filter(function (tweet) {
     return tweet.uuid === tweetId;
   })[0];
-
   if (targetTweetObj.isLiked) {
     targetTweetObj.likes--;
   } else if(!targetTweetObj.isLiked) {
     targetTweetObj.likes++;
   }
-
   targetTweetObj.isLiked = !targetTweetObj.isLiked
-
-  console.log(targetTweetObj);
   render()
+}
+
+function handleRetweetClick(tweetId){
+    console.log(tweetId)
+    const targetTweetObj = tweetsData.filter(function(tweet){
+        return tweet.uuid === tweetId
+    })[0]
+    if(targetTweetObj.isRetweeted){
+        targetTweetObj.retweets--
+    } else{
+        targetTweetObj.retweets++
+    }
+    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+    render()
 }
 
 function getFeedHtml() {
