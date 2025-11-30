@@ -1,6 +1,5 @@
 import { tweetsData } from "./data.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
-const tweetInput = document.getElementById("tweet-input");
 
 
 document.addEventListener("click", function (e) {
@@ -11,7 +10,7 @@ document.addEventListener("click", function (e) {
   } else if (e.target.dataset.reply) {
     handleReplyClick(e.target.dataset.reply);
   } else if (e.target.id === "tweet-btn") {
-    handleTweetBtnClick(tweetInput.value);
+    handleTweetBtnClick();
   }
 });
 
@@ -45,15 +44,16 @@ function handleReplyClick(replyId) {
   document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
 }
 
-function handleTweetBtnClick(tweetTextInput) {
+function handleTweetBtnClick() {
+const tweetInput = document.getElementById("tweet-input");
 
-  if (tweetTextInput) {
+  if (tweetInput.value) {
     tweetsData.unshift({
       handle: "@semizemes",
       profilePic: "images/scrimbalogo.png",
       likes: 0,
       retweets: 0,
-      tweetText: tweetTextInput,
+      tweetText: tweetInput.value,
       replies: [],
       isLiked: false,
       isRetweeted: false,
@@ -68,15 +68,9 @@ function getFeedHtml() {
   let feedHtml = "";
 
   tweetsData.forEach(function (tweet) {
-    let likeIconClass = "";
-    if (tweet.isLiked) {
-      likeIconClass = "liked";
-    }
+    const likeIconClass = tweet.isLiked ? 'liked' : ''
 
-    let retweetIconClass = "";
-    if (tweet.isRetweeted) {
-      retweetIconClass = "retweeted";
-    }
+    const retweetIconClass = tweet.isRetweeted ? "retweeted" : ''
 
     let repliesHtml = "";
 
