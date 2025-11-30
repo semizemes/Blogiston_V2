@@ -11,7 +11,7 @@ document.addEventListener("click", function (e) {
   } else if (e.target.dataset.reply) {
     handleReplyClick(e.target.dataset.reply);
   } else if (e.target.id === "tweet-btn") {
-    handleTweetBtnClick(tweetInput.value);
+    handleTweetBtnClick();
   }
 });
 
