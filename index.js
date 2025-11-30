@@ -1,17 +1,17 @@
 import { tweetsData } from "./data.js";
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 const tweetInput = document.getElementById("tweet-input");
 
 document.addEventListener("click", function (e) {
   if (e.target.dataset.like) {
     handleLikeClick(e.target.dataset.like);
-  } else if(e.target.dataset.retweet){
-    handleRetweetClick(e.target.dataset.retweet)
-  } else if(e.target.dataset.reply){
-    handleReplyClick(e.target.dataset.reply)
-  } else if(e.target.id === "tweet-btn"){
-    handleTweetBtnClick(tweetInput.value)
+  } else if (e.target.dataset.retweet) {
+    handleRetweetClick(e.target.dataset.retweet);
+  } else if (e.target.dataset.reply) {
+    handleReplyClick(e.target.dataset.reply);
+  } else if (e.target.id === "tweet-btn") {
+    handleTweetBtnClick(tweetInput.value);
   }
 });
 
@@ -21,65 +21,67 @@ function handleLikeClick(tweetId) {
   })[0];
   if (targetTweetObj.isLiked) {
     targetTweetObj.likes--;
-  } else if(!targetTweetObj.isLiked) {
+  } else if (!targetTweetObj.isLiked) {
     targetTweetObj.likes++;
   }
-  targetTweetObj.isLiked = !targetTweetObj.isLiked
-  render()
+  targetTweetObj.isLiked = !targetTweetObj.isLiked;
+  render();
 }
 
-function handleRetweetClick(tweetId){
-    const targetTweetObj = tweetsData.filter(function(tweet){
-        return tweet.uuid === tweetId
-    })[0]
-    if(targetTweetObj.isRetweeted){
-        targetTweetObj.retweets--
-    } else{
-        targetTweetObj.retweets++
-    }
-    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
-    render()
+function handleRetweetClick(tweetId) {
+  const targetTweetObj = tweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
+  if (targetTweetObj.isRetweeted) {
+    targetTweetObj.retweets--;
+  } else {
+    targetTweetObj.retweets++;
+  }
+  targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted;
+  render();
 }
 
-function handleReplyClick(replyId){
-    document.getElementById(`replies-${replyId}`).classList.toggle("hidden")
+function handleReplyClick(replyId) {
+  document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
 }
 
-function handleTweetBtnClick(tweetTextInput){
-    let newTweet = {
-        handle: "@semizemes",
-        profilePic: 'images/scrimbalogo.png',
-        likes: 0,
-        retweets: 0,
-        tweetText: tweetTextInput,
-        replies: [],
-        isLiked: false,
-        isRetweeted: false,
-        uuid: uuidv4()
-    }
-    console.log(newTweet)
+function handleTweetBtnClick(tweetTextInput) {
+  if (tweetTextInput != "") {
+    tweetsData.unshift({
+      handle: "@semizemes",
+      profilePic: "images/scrimbalogo.png",
+      likes: 0,
+      retweets: 0,
+      tweetText: tweetTextInput,
+      replies: [],
+      isLiked: false,
+      isRetweeted: false,
+      uuid: uuidv4(),
+    });
+  }
+  tweetInput.value = ''
+  render();
 }
 
 function getFeedHtml() {
   let feedHtml = "";
 
   tweetsData.forEach(function (tweet) {
-    let likeIconClass = ''
-    if(tweet.isLiked){
-        likeIconClass = 'liked'
+    let likeIconClass = "";
+    if (tweet.isLiked) {
+      likeIconClass = "liked";
     }
 
-    let retweetIconClass = ''
-    if(tweet.isRetweeted){
-        retweetIconClass = 'retweeted'
+    let retweetIconClass = "";
+    if (tweet.isRetweeted) {
+      retweetIconClass = "retweeted";
     }
 
-    let repliesHtml = ''
+    let repliesHtml = "";
 
-    if(tweet.replies.length > 0){
-
-        tweet.replies.forEach(function(reply){
-            repliesHtml += `
+    if (tweet.replies.length > 0) {
+      tweet.replies.forEach(function (reply) {
+        repliesHtml += `
                 <div class="tweet-reply">
                     <div class="tweet-inner">
                         <img src="${reply.profilePic}" class="profile-pic">
@@ -89,10 +91,9 @@ function getFeedHtml() {
                             </div>
                     </div>
                 </div>
-            `
-        })
+            `;
+      });
     }
-
 
     feedHtml += `
         <div class="tweet">
